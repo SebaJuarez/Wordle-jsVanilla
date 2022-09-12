@@ -1,0 +1,134 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.error{
+    animation: error .5s  1 ;
+}
+
+
+.palabra{
+    width: 30%;
+    min-width: 300px;
+    margin: 0 auto;
+    font-family: 'Noto Serif', serif;
+    font-size: 2rem;
+    display: flex;
+}
+
+input{
+    width: 90%;
+    height: 50px;
+    border: solid 2px rgb(198, 193, 193);
+    text-align: center;
+    color: transparent;
+    text-shadow: 0 0 0 black;
+}
+
+input:hover{
+    cursor:default;
+}
+
+input:focus{
+   outline: none;
+}
+
+button{
+    width: 100%;
+    height: 60px;
+    border: none;
+    background-color: rgb(218, 219, 220);
+    color: black;
+} 
+
+.mayus{
+    height: 40px;
+}
+
+.send{
+    color: white !important;
+    background-color: rgb(124, 124, 234);
+}
+
+.del{
+    color: white;
+    background-color: rgb(179, 103, 103);
+}
+
+.inicio{
+    width: 0;
+}
+
+.teclado{
+    max-width: 700px;
+}
+
+@media screen and (min-width: 700px ) {
+    .teclado{
+        width: 50%;
+    }
+}
+
+.img{
+    width: 30px;
+}
+
+.btn:focus{
+    border: 0;
+}
+
+/* animacion de error */
+@keyframes error {
+    0%{
+        background-color: rgb(254, 171, 171);
+        opacity: 50%;
+    }    
+
+    50%{
+        background-color: rgb(255, 141, 141);
+        transform: translatex(-3%);
+        opacity: 50%;
+    }
+
+    60%{
+        background-color: rgb(255, 202, 202);
+        transform: translatey(-3%);
+        opacity: 50%;
+    }
+
+    70%{
+        background-color: rgb(254, 216, 216);
+        transform: translatex(3%);
+        opacity: 50%;
+    }
+
+    80%{
+        background-color: rgb(251, 239, 240);
+        transform: translatey(3%);
+        opacity: 50%;
+    }
+}
+/* ------------------------------------------*/
+
+/* enimaciones para rotar los input---------*/
+.animation{
+    animation: spin 1s 1;
+}
+
+
+@-moz-keyframes spin {
+     100% {
+         -moz-transform: rotatey(360deg); 
+        } 
+    }
+
+@-webkit-keyframes spin {
+     100% { 
+        -webkit-transform: rotatex(360deg); 
+    } 
+    }
+@keyframes spin { 100% { -webkit-transform: rotatex(360deg); transform:rotatex(360deg); } }
+
+/*---------------------------------------------------------*/
