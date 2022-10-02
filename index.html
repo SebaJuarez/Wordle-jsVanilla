@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./estilo/estilo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://i.pinimg.com/originals/07/3a/24/073a24ff3aa9926236fab4f206023942.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <title>wordle</title>
+</head>
+<body>   
+<!------- modal de ventana de ayuda ---------------->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h5 class="modal-title" id="staticBackdropLabel">Como Jugar</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex align-items-center justify-content-center text-center">
+                  Adivina la palabra en 6 intentos. Después de cada intento, el color de las fichas cambiará para mostrar qué tan cerca estuviste de la palabra.
+              </div>
+              <div id="palabra1" class="palabra d-flex justify-content-center mt-3">
+                  <div  class="caracter"><input readonly type="text" maxlength="1" value="s"></div>
+                  <div  class="caracter"><input readonly type="text" maxlength="1" value="o" style="background-color: green; color: white;"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="m"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="b"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="r"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="a"></div>
+              </div>
+              <div class="container d-flex justify-content-center align-items-center text-center p-2">
+                  La letra "o" está en la palabra y en el lugar correcto.
+              </div>
+              <div id="palabra1" class="palabra d-flex justify-content-center mt-3">
+                  <div  class="caracter"><input readonly type="text" maxlength="1" value="h"></div>
+                  <div  class="caracter"><input readonly type="text" maxlength="1" value="o"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="m"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="b" style="background-color: rgb(127, 127, 53); color: white"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="r"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="e"></div>
+              </div>
+              <div class="container d-flex justify-content-center align-items-center text-center p-2">
+                  La letra "b" está en la palabra pero en el lugar incorrecto
+              </div>
+              <div id="palabra1" class="palabra d-flex justify-content-center mt-3">
+                  <div  class="caracter"><input readonly type="text" maxlength="1" value="t"></div>
+                  <div  class="caracter"><input readonly type="text" maxlength="1" value="r"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="o" style="background-color: gray; color: white"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="n"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="c"></div>
+                  <div class="caracter"><input readonly type="text" maxlength="1" value="o" style = "background-color: gray; color: white"></div>
+              </div>
+              <div class="container d-flex justify-content-center align-items-center text-center p-2">
+                  La letra "o" no existe en la palabra
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <!------------->
+ <!--- modal estadisticas  ----->
+ <div class="modal fade" id="modalEstadistica"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"> Estadisticas </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div id="stats" class="modal-body ">
+                <div class="container p-0 bg-success bg-opacity-10 rounded-4 p-2 border border-2">
+                    <div class="container d-flex d-flex justify-content-around">
+                        <p class="border-bottom border-2"> Ganadas 👑</p>
+                        <p class="border-bottom border-2"> Perdidas ☠</p> 
+                        <p class="border-bottom border-2"> Totales 🧠 </p> 
+                    </div>
+                    <div class="container d-flex d-flex justify-content-around">
+                        <p id="pganados">  </p>
+                        <p id = "pperdidas">  </p> 
+                        <p id="ptotales">  </p> 
+                    </div>
+                    <div class="container d-flex d-flex justify-content-around">
+                        <p class="border-bottom border-2"> Win Rate </p>
+                        <p class="border-bottom border-2"> Lose Rate </p> 
+                    </div>
+                    <div class="container d-flex d-flex justify-content-around">
+                        <p id="wrate"> Win Rate </p>
+                        <p id="lrate"> Lose Rate </p> 
+                    </div>
+                </div>
+                <div class="container d-flex justify-content-center align-items-center text-center p-2">
+                    <p>Informacion de las ultimas palabras</p>
+                </div>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button id="p1" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            No hay datos
+                        </button>
+                      </h2>
+                      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container d-flex justify-content-center align-items-center text-center pt-1">
+                                <p>Barra de progreso según acierto: </p>
+                            </div>
+                            <div class="progress mb-2">
+                                <div id="barraProgreso1" class="progress-bar progress-bar-striped bg-success inicio" role="progressbar" aria-label="Success striped example"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="container d-flex justify-content-center align-items-center text-center pt-1">
+                                <p>Informacion sobre la palabra </p>
+                            </div>
+                            <a  id="href1" target="_blank" type="button" class="btn btn-outline-success w-100" >visitar diccionario</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingTwo">
+                        <button id="p2" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          No hay datos
+                        </button>
+                      </h2>
+                      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container d-flex justify-content-center align-items-center text-center pt-1">
+                                <p>Barra de progreso según acierto: </p>
+                            </div>
+                            <div class="progress mb-2">
+                                <div id="barraProgreso2" class="progress-bar progress-bar-striped bg-success inicio" role="progressbar" aria-label="Success striped example"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="container d-flex justify-content-center align-items-center text-center pt-1">
+                                <p>Informacion sobre la palabra </p>
+                            </div>
+                            <a  id="href2" target="_blank" type="button" class="btn btn-outline-success w-100" >visitar diccionario</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingThree">
+                        <button id="p3" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          No hay datos
+                        </button>
+                      </h2>
+                      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="container d-flex justify-content-center align-items-center text-center pt-1">
+                                <p>Barra de progreso según acierto: </p>
+                            </div>
+                            <div class="progress mb-2">
+                                <div id="barraProgreso3" class="progress-bar progress-bar-striped bg-success inicio" role="progressbar" aria-label="Success striped example"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="container d-flex justify-content-center align-items-center text-center pt-1">
+                                <p>Informacion sobre la palabra </p>
+                            </div>
+                            <a  id="href3" target="_blank" type="button" class="btn btn-outline-success w-100" >visitar diccionario</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+ </div>
+<!----------------------------->
+<!----- modal ventana de perdedor  ------->
+<button id="botonPerdio" type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalPerdio" style="display: none;"> 
+    <img class="img" src=" https://cdn-icons-png.flaticon.com/512/3629/3629632.png" alt="">
+ </button>
+<div class="modal fade" id="modalPerdio"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"> PERDISTE!! </h5>
+            </div>
+            <div id="stats" class="modal-body">
+                <div class="container d-flex justify-content-center align-items-center text-center pt-2 pb-1">
+                    <p>Tu ultimo intento fue :</p>
+                </div>
+                <div id="palabraRespuesta" class="palabra d-flex justify-content-center pb-2">
+                    <div  class="caracter" id="f6-1r"><input readonly type="text" maxlength="1" ></div>
+                    <div  class="caracter" id="f6-2r"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-3r"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-4r"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-5r"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-6r"><input readonly type="text" maxlength="1" ></div>
+                </div>
+                <div class="container d-flex justify-content-center align-items-center text-center p-2">
+                    <p>La palabra secreta era :</p>
+                </div>
+                <div id="palabraResultado" class="palabra d-flex justify-content-center">
+                    <div  class="caracter" id="f6-1rr"><input readonly type="text" maxlength="1" ></div>
+                    <div  class="caracter" id="f6-2rr"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-3rr"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-4rr"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-5rr"><input readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-6rr"><input readonly type="text" maxlength="1" ></div>
+                </div>
+                <div class="container d-flex justify-content-center align-items-center text-center pt-3">
+                    <p>Barra de progreso según acierto: </p>
+                </div>
+                <div class="progress mb-2">
+                    <div id="barraProgreso" class="progress-bar progress-bar-striped bg-success inicio" role="progressbar" aria-label="Success striped example"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <button type="button" class="btn btn-outline-success mt-4" data-bs-dismiss="modal" aria-label="close" onclick= "location.reload()" >Jugar de nuevo</button>
+            </div>
+        </div>
+    </div>
+ </div>
+<!--------------->
+<!----- modal ventana de ganador  ------->
+<button id="botonGano" type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalGano" style="display: none;"> 
+ </button>
+
+<div class="modal fade" id="modalGano"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"> GANASTE!! </h5>
+            </div>
+            <div id="stats" class="modal-body">
+                <div class="container d-flex justify-content-center align-items-center text-center pt-2 pb-1">
+                    <p>Felicitaciones por descubrir la palabra:</p>
+                </div>
+                <div id="palabraRespuesta" class="palabra d-flex justify-content-center pb-2">
+                    <div  class="caracter" id="f6-1g"><input  style="background-color: green; color: white;" readonly type="text" maxlength="1" ></div>
+                    <div  class="caracter" id="f6-2g"><input  style="background-color: green; color: white;" readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-3g"><input  style="background-color: green; color: white;" readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-4g"><input  style="background-color: green; color: white;" readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-5g"><input  style="background-color: green; color: white;" readonly type="text" maxlength="1" ></div>
+                    <div class="caracter" id="f6-6g"><input  style="background-color: green; color: white;" readonly type="text" maxlength="1" ></div>
+                </div>
+                <div class="container d-flex justify-content-center align-items-center text-center pt-2 pb-1">
+                    <p>Lo conseguiste en el intento numero :</p>
+                </div>
+                <div class="container d-flex justify-content-center align-items-center text-center pt-2 pb-1">
+                    <div class="caracter" id="nintento"><input  style="background-color: rgb(127, 127, 53); color: white;" readonly type="text" maxlength="1" ></div>
+                </div>
+                <button type="button" class="btn btn-outline-success mt-4" data-bs-dismiss="modal" aria-label="close" onclick= "location.reload()" >Jugar de nuevo</button>
+            </div>
+        </div>
+    </div>
+ </div>
+<!--------------------------------------->
+<!-- header -->
+<header>
+        <div class="titulo-principal row align-items-center justify-content-center pt-3 pb-4 ">
+            <div class="col-3 d-flex align-items-center justify-content-center ">
+                <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalEstadistica"> 
+                    <img class="img" src=" https://cdn-icons-png.flaticon.com/512/3629/3629632.png" alt="">
+                 </button>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center border-bottom border-2"> <h1>WORDLE</h1></div>
+            <div class="col-3 d-flex align-items-center justify-content-start ">
+                <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <img class="img" src="https://cdn-icons-png.flaticon.com/512/906/906794.png" alt="">
+              </button>
+            </div>
+        </div>
+    </header>
+<!----------->
+    <main>
+        <!-- contiene la zona donde se muestran los caracteres -->
+        <section class="sector-de-palabras">
+            <div class="contenedor-palabras pb-4 mx-auto">
+                <div id="palabra1" class="palabra d-flex justify-content-center">
+                    <div id="f1-1" class="caracter"><input disabled readonly type="text" maxlength="1"></div>
+                    <div id="f1-2" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f1-3" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f1-4" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f1-5" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f1-6" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                </div>
+                <div class="palabra d-flex justify-content-center mt-2">
+                    <div id="f2-1" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f2-2" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f2-3" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f2-4" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f2-5" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f2-6" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                </div>
+                <div class="palabra d-flex justify-content-center mt-2">
+                    <div id="f3-1" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f3-2" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f3-3" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f3-4" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f3-5" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f3-6" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                </div>
+                <div class="palabra d-flex justify-content-center mt-2">
+                    <div id="f4-1" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f4-2" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f4-3" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f4-4" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f4-5" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f4-6" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                </div>
+                <div class="palabra  d-flex justify-content-center mt-2">
+                    <div id="f5-1" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f5-2" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f5-3" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f5-4" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f5-5" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f5-6" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                </div>
+                <div class="palabra  d-flex justify-content-center mt-2">
+                    <div id="f6-1" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f6-2" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f6-3" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f6-4" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f6-5" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                    <div id="f6-6" class="caracter"><input readonly disabled type="text" maxlength="1"></div>
+                </div>
+            </div>
+        </section>
+        <!--------------------->
+        <!-- contiene la zona donde se accede al teclado por pantalla -->
+        <section>
+            <div class="row align-items-center g-1 justify-content-center mt-1 teclado mx-auto m-0">
+                <div class="row justify-content-center g-1">
+                    <div class="col-2 d-flex justify-content-center"><button class="mayus">Á</button></div>
+                    <div class="col-2 d-flex justify-content-center"><button class="mayus">É</button></div>
+                    <div class="col-2 d-flex justify-content-center"><button class="mayus">Í</button></div>
+                    <div class="col-2 d-flex justify-content-center"><button class="mayus">Ó</button></div>
+                    <div class="col-2 d-flex justify-content-center"><button class="mayus">Ú</button></div>
+                </div>
+                <div class="row justify-content-center g-1">
+                    <div class="col-1 d-flex justify-content-center"><button>Q</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>W</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>E</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>R</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>T</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>Y</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>U</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>I</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>O</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>P</button></div>
+                </div>
+                <div class="row justify-content-center g-1">
+                    <div class="col-1 d-flex justify-content-center"><button>A</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>S</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>D</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>F</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>G</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>H</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>J</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>K</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>L</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>Ñ</button></div>
+                </div>
+                <div class="row justify-content-center g-1">
+                    <div class="col-2 d-flex justify-content-center"><button class="send">SEND</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>Z</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>X</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>C</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>V</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>B</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>N</button></div>
+                    <div class="col-1 d-flex justify-content-center"><button>M</button></div>
+                    <div class="col-2 d-flex justify-content-center"><button class="del">DEL</button></div>
+                </div>
+            </div>
+        </section>
+        <!-------------------------------------------------------------->
+    </main>
+    <script src="./logica/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+</body>
+</html>
